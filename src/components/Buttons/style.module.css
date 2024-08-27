@@ -1,0 +1,26 @@
+.button {
+  @apply px-4 py-2 h-10 inline-flex items-center justify-center;
+  @apply rounded-[2px] text-sm font-bold transition-all duration-100;
+
+  &:disabled {
+    @apply cursor-not-allowed;
+  }
+}
+
+.primary {
+  @apply bg-primary text-white;
+  @apply hover:bg-primary-light active:text-white active:bg-primary-light;
+
+  &:disabled {
+    @apply bg-primary-light/75 text-blue-200/75;
+  }
+}
+
+.secondary {
+  @apply bg-gray-500 text-white;
+  @apply hover:bg-gray-400 active:text-white active:bg-gray-400;
+
+  &:disabled {
+    @apply bg-gray-400/75 text-blue-200/75;
+  }
+}

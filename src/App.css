@@ -1,0 +1,8 @@
+.form-control {
+  resize: none;
+  @apply outline-none font-normal w-full p-2 h-10 rounded-[2px] transition-all duration-150 bg-white border border-gray-300;
+
+  &:focus {
+    @apply border-blue-400;
+  }
+}
