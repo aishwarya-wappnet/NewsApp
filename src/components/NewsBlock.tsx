@@ -46,7 +46,7 @@ const NewsBlock = ({ newsArticle }: { newsArticle: NewsArticle }) => {
         <div className="flex flex-col">
           <h3 className="font-medium">{title}</h3>
           <p className="mt-2">
-            {description}
+            {description.substring(0, 325)}
             <Link to={url} className="text-primary" target="_blank">
               &nbsp;Read more
             </Link>

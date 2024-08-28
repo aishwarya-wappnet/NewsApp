@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import ImageSlider from "../../components/ImageSlider";
 import { slides } from "../../data/slides";
 import NewsBlock from "../../components/NewsBlock";
-import { fetchNews, fetchRandomNews } from "../../services/NewsService";
+import { fetchNews, fetchRandomNews } from "../../services/ArticleService";
 import { NewsArticle } from "./types";
 import { Link } from "react-router-dom";
 import Logo from "../../components/Logo";

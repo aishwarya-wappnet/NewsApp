@@ -13,7 +13,7 @@ const UserNavbar = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showCreateArticlesModal, setShowCreateArticlesModal] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useUserAuth();
+  const { isAuthenticated, user, logout, login } = useUserAuth();
 
   const handleAvatarClick = () => {
     setIsPopoverOpen((prev) => !prev);
@@ -41,7 +41,7 @@ const UserNavbar = () => {
         width="400px"
         showLogo={true}
       >
-        <Login close={handleLoginModal} />
+        <Login close={handleLoginModal} login={login} />
       </Modal>
       {/* Login modal end */}
       {/* Create article modal start*/}

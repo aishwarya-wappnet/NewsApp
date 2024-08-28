@@ -16,22 +16,21 @@ import { Button } from "./Buttons";
 import { useNavigate } from "react-router-dom";
 import { setItem } from "../utils/helperfuntions";
 import { fetchUsers, User } from "../services/UserService";
-import { useUserAuth } from "../contexts/UserContext";
 
 const Login = ({
   isAdmin,
   close,
+  login,
 }: {
   isAdmin?: boolean;
   close?: () => void;
+  login?: () => void;
 }) => {
   const navigate = useNavigate();
-  const { login } = useUserAuth();
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email address").required(REQUIRED_FIELD),
     password: Yup.string().required(REQUIRED_FIELD),
   });
-  
 
   const handleSubmit = async (
     values: FormikValues,
@@ -66,7 +65,7 @@ const Login = ({
               key: USER,
               value: JSON.stringify({ ...user, token: uuidv4() }),
             });
-            login();
+            if (login) login();
           } else {
             toast.error(INVALID_CREDS);
           }

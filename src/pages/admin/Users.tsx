@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
+import { v4 as uuid4 } from "uuid";
 
 import Table from "../../components/Table";
 import { useData } from "../../contexts/DataContext";
 import {
-  addUser,
-  deleteUser,
-  editUser,
+  addNewUser,
+  delUser,
+  updateUser,
   fetchUsers,
   User,
 } from "../../services/UserService";
@@ -16,35 +17,46 @@ import Modal from "../../components/Modal";
 import InputField from "../../components/InputField";
 import { REQUIRED_FIELD } from "../../utils/constants";
 import { isEmpty } from "../../utils/helperfuntions";
+import moment from "moment";
+
+const initValues = {
+  id: "",
+  fullName: "",
+  email: "",
+  password: "",
+  createdAt: "",
+};
 
 const userCols = [
   {
     header: "Full Name",
     key: "fullName",
-    width: "50%",
+    width: "30%",
   },
   {
     header: "Email",
     key: "email",
-    width: "50%",
+    width: "30%",
+  },
+  {
+    header: "Created At",
+    key: "createdAt",
+    width: "30%",
+    date: true,
   },
 ];
 
 const Users = () => {
-  const { users, setAllUsers } = useData();
+  const { users, setAllUsers, deleteUser, addUser, editUser } = useData();
   const [showUserForm, setShowUserForm] = useState(false);
-  const [initialValues, setInitialValues] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-  });
+  const [initialValues, setInitialValues] = useState(initValues);
   useEffect(() => {
     getUsers();
   }, []);
 
   const getUsers = async () => {
     const response = await fetchUsers();
-    setAllUsers(response);
+    setAllUsers(response.reverse());
   };
 
   const handleUserForm = () => {
@@ -52,8 +64,8 @@ const Users = () => {
   };
 
   const handleDelete = async (id: string) => {
-    await deleteUser(id);
-    getUsers();
+    deleteUser(id);
+    await delUser(id);
   };
 
   const validationSchema = Yup.object().shape({
@@ -66,7 +78,10 @@ const Users = () => {
     <>
       <Modal
         show={showUserForm}
-        close={handleUserForm}
+        close={() => {
+          setInitialValues(initValues);
+          handleUserForm();
+        }}
         outsideClose={true}
         width="500px"
         title={isEmpty(initialValues) ? "Add User" : "Edit User"}
@@ -74,8 +89,15 @@ const Users = () => {
         <Formik
           initialValues={initialValues}
           onSubmit={async (values) => {
-            if (isEmpty(initialValues)) await addUser(values as User);
-            else await editUser(values as User);
+            if (isEmpty(initialValues)) {
+              addUser(values as User);
+              values["id"] = uuid4();
+              values["createdAt"] = moment().utc().toISOString();
+              await addNewUser(values as User);
+            } else {
+              editUser(values.id, values as User);
+              await updateUser(values as User);
+            }
             handleUserForm();
             getUsers();
           }}
@@ -87,9 +109,19 @@ const Users = () => {
               <InputField type="text" name="fullName" label="Full Name" />
               <InputField type="email" name="email" label="Email" />
               <InputField type="password" name="password" label="Password" />
-              <div className="flex justify-end">
-                <Button type="submit" className="my-2">
-                  {isEmpty(initialValues) ? "Add User" : "Update User"}
+              <div className="flex items-center justify-end gap-2">
+                <Button.Secondary
+                  className="w-[100px]"
+                  type="button"
+                  onClick={() => {
+                    setInitialValues(initValues);
+                    handleUserForm();
+                  }}
+                >
+                  Cancel
+                </Button.Secondary>
+                <Button type="submit" className="my-2 w-[100px]">
+                  Save
                 </Button>
               </div>
             </Form>
@@ -103,13 +135,13 @@ const Users = () => {
       </div>
       <Table
         columns={userCols}
-        data={users}
+        data={users || []}
         onEdit={(values: unknown) => {
           setInitialValues(values as User);
           handleUserForm();
         }}
         onDelete={(values: unknown) => {
-          handleDelete(values?.id as string);
+          handleDelete((values as User).id);
         }}
       />
     </>

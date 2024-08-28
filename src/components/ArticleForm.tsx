@@ -10,7 +10,7 @@ import ImagePicker from "./ImagePicker";
 import TextareaField from "./TextareaField";
 import { Button } from "./Buttons";
 import { isEmpty } from "../utils/helperfuntions";
-import { addNewArticle } from "../services/NewsService";
+import { addNewsArticle, editNewsArticle } from "../services/ArticleService";
 import { NewsArticle } from "../pages/home/types";
 import { useData } from "../contexts/DataContext";
 import { User } from "../services/UserService";
@@ -26,7 +26,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({
   user,
   initValues,
 }) => {
-  const { addArticle } = useData();
+  const { addArticle, editArticle } = useData();
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required(REQUIRED_FIELD),
@@ -44,10 +44,13 @@ const ArticleForm: React.FC<ArticleFormProps> = ({
           author: user?.fullName,
           publishedAt: moment().utc().toISOString(),
         };
-        await addNewArticle(newArticle as NewsArticle);
+        await addNewsArticle(newArticle as NewsArticle);
         addArticle(newArticle as NewsArticle);
-        close();
+      } else {
+        await editNewsArticle(values as NewsArticle);
+        editArticle(values.id, values as NewsArticle);
       }
+      close();
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +75,11 @@ const ArticleForm: React.FC<ArticleFormProps> = ({
           <TextareaField name="description" label="Description" rows={8} />
           <footer className="sticky bottom-0 bg-white py-3 border-t">
             <div className="flex justify-end gap-2">
-              <Button.Secondary className="w-[100px]" onClick={close}>
+              <Button.Secondary
+                className="w-[100px]"
+                type="button"
+                onClick={close}
+              >
                 Cancel
               </Button.Secondary>
               <Button className="w-[100px]" type="submit">

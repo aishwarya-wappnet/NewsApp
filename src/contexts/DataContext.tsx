@@ -1,6 +1,14 @@
-import { createContext, useState, useMemo, ReactNode, useContext } from "react";
+import {
+  createContext,
+  useState,
+  useMemo,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
 import { NewsArticle } from "../pages/home/types";
 import { User } from "../services/UserService";
+import moment from "moment";
 
 interface DataContextInterface {
   articles: NewsArticle[] | undefined;
@@ -13,6 +21,10 @@ interface DataContextInterface {
   setAllUsers: (users: User[]) => void;
   editUser: (id: string, data: User) => void;
   deleteUser: (id: string) => void;
+  startDate: Date | null;
+  endDate: Date | null;
+  handleStartDate: (date: Date) => void;
+  handleEndDate: (date: Date) => void;
 }
 
 const DataContext = createContext<DataContextInterface | undefined>(undefined);
@@ -22,6 +34,16 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    const now = moment();
+    const startOfWeek = now.startOf("week").toDate();
+    const endOfWeek = now.endOf("week").toDate();
+    setStartDate(startOfWeek);
+    setEndDate(endOfWeek);
+  }, []);
 
   const addArticle = (article: NewsArticle) => {
     if (article) setArticles((prev) => [article, ...prev]);
@@ -32,7 +54,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const editArticle = (id: string, data: NewsArticle) => {
-    setUsers((prev) =>
+    setArticles((prev) =>
       prev.map((article) =>
         article.id === id ? { ...article, ...data } : article
       )
@@ -40,7 +62,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const deleteArticle = (id: string) => {
-    setUsers((prev) => prev.filter((article) => article.id !== id));
+    setArticles((prev) => prev.filter((article) => article.id !== id));
   };
 
   const addUser = (userData: User) => {
@@ -61,6 +83,14 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
     setUsers((prev) => prev.filter((user) => user.id !== id));
   };
 
+  const handleStartDate = (date: Date) => {
+    setStartDate(date);
+  };
+
+  const handleEndDate = (date: Date) => {
+    setEndDate(date);
+  };
+
   const value = useMemo(
     () => ({
       articles,
@@ -73,8 +103,12 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
       addUser,
       editUser,
       deleteUser,
+      startDate,
+      endDate,
+      handleEndDate,
+      handleStartDate,
     }),
-    [articles, users]
+    [articles, users, startDate, endDate]
   );
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

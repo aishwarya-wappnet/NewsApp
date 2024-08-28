@@ -12,7 +12,7 @@ interface TableColumn {
 }
 
 interface TableRow {
-  [key: string]: string;
+  [key: string]: any;
 }
 
 interface TableProps {
@@ -55,16 +55,18 @@ const Table: React.FC<TableProps> = ({
     } else return row[column.key];
   };
 
+  if (!data) return null;
+
   return (
     <div className="overflow-x-auto w-full">
-      <table className="max-w-full bg-white border border-gray-200">
+      <table className="w-full bg-white border border-gray-200">
         <thead>
           <tr>
             {columns.map((column) => (
               <th
                 key={column.key}
                 className="py-2 px-4 border-b border-gray-300 text-left"
-                style={{ maxWidth: column.width }}
+                style={{ width: column.width }}
               >
                 {column.header}
               </th>

@@ -28,7 +28,6 @@ export default function Popover({ isOpen, onClose, children }: PopoverProps) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
-  console.log(isOpen);
 
   if (!isOpen) return null;
 

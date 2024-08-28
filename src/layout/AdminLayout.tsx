@@ -8,12 +8,15 @@ import {
 } from "react-router-dom";
 import { LogOut, Menu } from "lucide-react";
 import { toast } from "sonner";
+import DatePicker from "react-datepicker";
 
 import Logo from "../components/Logo";
 import { removeItem } from "../utils/helperfuntions";
 import { ADMIN_TOKEN, LOGOUT_SUCCESS } from "../utils/constants";
+import { useData } from "../contexts/DataContext";
 
 const AdminPanel: React.FC = () => {
+  const { startDate, endDate, handleEndDate, handleStartDate } = useData();
   const [activeTab, setActiveTab] = useState<string>("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -39,12 +42,12 @@ const AdminPanel: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       {/* Sidebar */}
       <div
         className={`fixed inset-y-0 left-0 z-30 min-w-64 bg-white shadow-md transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:relative md:translate-x-0 transition-transform duration-300 ease-in-out`}
+        } md:fixed md:translate-x-0 transition-transform duration-300 ease-in-out`}
       >
         <div className="flex flex-col p-4 border-b">
           <Link to="/admin/dashboard" className="pb-8">
@@ -96,14 +99,36 @@ const AdminPanel: React.FC = () => {
       </div>
 
       {/* Content */}
-      <div className="flex-1">
-        <div className="bg-white border border-b flex justify-between p-4 md:justify-end">
+      <div className="md:ml-64">
+        <div className="bg-white border border-b flex justify-between gap-11 p-4 md:justify-end">
           <button
             className="text-gray-500 md:hidden focus:outline-none"
             onClick={toggleSidebar}
           >
             <Menu size={24} />
           </button>
+          <div className="flex border border-sm px-2">
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => handleStartDate(date)}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+              placeholderText="Start Date"
+              className="outline-none text-sm max-w-[75px]"
+            />
+            &nbsp;-&nbsp;
+            <DatePicker
+              selected={endDate}
+              onChange={(date) => handleEndDate(date)}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={startDate}
+              placeholderText="End Date"
+              className="outline-none text-sm max-w-[75px]"
+            />
+          </div>
           <LogOut
             width={20}
             className="text-gray-500 cursor-pointer"
