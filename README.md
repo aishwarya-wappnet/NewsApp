@@ -1,50 +1,35 @@
-# React + TypeScript + Vite
+# Getting Started
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+To get your development environment up and running, follow these steps:
 
-Currently, two official plugins are available:
+## Running the Development Server
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. **Install Dependencies**
 
-## Expanding the ESLint configuration
+   First, make sure you have installed all the necessary dependencies. Run:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+   ```bash
+   npm install
+   ```
 
-- Configure the top-level `parserOptions` property like this:
+2. **Running the Mock API Server**
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+   ```bash
+   npx json-server ./src/data/data.json
+   ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- By default, the mock API server runs on port 3000. And currently `VITE_APP_BACKEND_URL` .env variable is set to endpoint `http://localhost:3000/`. If you need it to run on some other port, you can specify the port using the --port option:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+  ```bash
+  npx json-server ./src/data/data.json --port 3001
+  ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- Also, dont forget to modify the VITE_APP_BACKEND_URL variable present in .env file
+  to match the URL of your mock API server. For example, if your mock
+  API server is running on port 3001, set it as follows: `VITE_APP_BACKEND_URL=http://localhost:3001/`
+
+3. **Start the Development Server**
+
+   ```bash
+   npm run dev
+   ```
