@@ -1,16 +1,17 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 
 import ImageSlider from "../../components/ImageSlider";
 import { slides } from "../../data/slides";
 import NewsBlock from "../../components/NewsBlock";
 import { fetchNews, fetchRandomNews } from "../../services/ArticleService";
 import { NewsArticle } from "./types";
-import { Link } from "react-router-dom";
 import Logo from "../../components/Logo";
 import { UserAuthProvider } from "../../contexts/UserContext";
 import UserNavbar from "./UserNavbar";
 import { useData } from "../../contexts/DataContext";
+import { debounce } from "../../utils/helperfuntions";
 
 const Container = styled.div`
   max-width: 900px;
@@ -25,6 +26,7 @@ const NewsContainer = styled.div``;
 
 const Home = () => {
   const { setAllArticles, articles, addArticle } = useData();
+  const [visibleCount, setVisibleCount] = useState(10);
 
   useEffect(() => {
     fetchArticles();
@@ -39,6 +41,29 @@ const Home = () => {
       clearTimeout(newNews);
     };
   }, []);
+
+  const loadMoreArticles = async () => {
+    await fetchArticles();
+    setVisibleCount((prevCount) => prevCount + 10); // Load 10 more articles
+  };
+
+  // Debounced handleScroll function
+  const handleScroll = useCallback(
+    debounce(() => {
+      const scrollableHeight = document.documentElement.scrollHeight;
+      const scrolled = window.innerHeight + window.scrollY;
+
+      if (scrollableHeight - scrolled < 100) {
+        loadMoreArticles();
+      }
+    }, 200),
+    []
+  );
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   const fetchArticles = async () => {
     const response = await fetchNews();
@@ -62,7 +87,7 @@ const Home = () => {
       {/* Header end */}
       <Container>
         {/* Image slider start */}
-        <div className="flex justify-center items-center mt-5">
+        <div className="flex justify-center items-center">
           <ImageSlider slides={slides} />
         </div>
       </Container>
@@ -72,9 +97,11 @@ const Home = () => {
         <Container>
           <div className="mt-16">
             <h1 className="text-primary font-bold pt-6">Latest News</h1>
-            {articles?.map((newsArticle: NewsArticle) => (
-              <NewsBlock newsArticle={newsArticle} key={newsArticle.title} />
-            ))}
+            {articles
+              ?.slice(0, visibleCount)
+              .map((newsArticle: NewsArticle) => (
+                <NewsBlock newsArticle={newsArticle} key={newsArticle.title} />
+              ))}
           </div>
           {/* News feed end */}
         </Container>

@@ -26,11 +26,11 @@ export const fetchRandomNews = async () => {
 export const addNewsArticle = async (data: NewsArticle) => {
   try {
     const response = await ApiClient.post("/articles", data);
-    toast.success("Article added successfully");
+    toast.success("News published successfully");
     return response?.data;
   } catch (error) {
     console.log(error);
-    toast.error("Error creating article");
+    toast.error("Error publishing news");
   }
 };
 
@@ -38,7 +38,7 @@ export const editNewsArticle = async (data: NewsArticle) => {
   try {
     const url = `/articles/${data?.id}`;
     const response = await ApiClient.put(url, data);
-    toast.success("Article updated successfully");
+    toast.success("News updated successfully");
     return response?.data;
   } catch (error) {
     console.log(error);
@@ -50,7 +50,7 @@ export const deleteNewsArticle = async (id: string) => {
   try {
     const url = `/articles/${id}`;
     const response = await ApiClient.delete(url);
-    toast.success("Article deleted successfully");
+    toast.success("News deleted successfully");
     return response?.data;
   } catch (error) {
     console.log(error);

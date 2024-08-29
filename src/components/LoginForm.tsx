@@ -16,6 +16,7 @@ import { Button } from "./Buttons";
 import { useNavigate } from "react-router-dom";
 import { setItem } from "../utils/helperfuntions";
 import { fetchUsers, User } from "../services/UserService";
+import { Mail, Lock } from "lucide-react";
 
 const Login = ({
   isAdmin,
@@ -24,7 +25,7 @@ const Login = ({
 }: {
   isAdmin?: boolean;
   close?: () => void;
-  login?: () => void;
+  login?: (data: User) => void;
 }) => {
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
@@ -61,11 +62,12 @@ const Login = ({
           if (user[0]?.password === values?.password) {
             if (close) close();
             toast.success(LOGIN_SUCCESS);
+            const data = { ...user[0], token: uuidv4() };
             setItem({
               key: USER,
-              value: JSON.stringify({ ...user, token: uuidv4() }),
+              value: JSON.stringify(data),
             });
-            if (login) login();
+            if (login) login(data);
           } else {
             toast.error(INVALID_CREDS);
           }
@@ -87,8 +89,18 @@ const Login = ({
     >
       {({ isSubmitting }) => (
         <Form className="pb-3">
-          <InputField type="text" name="email" label="Email" />
-          <InputField type="password" name="password" label="Password" />
+          <InputField
+            type="text"
+            name="email"
+            label="Email"
+            icon={<Mail className="icon" />}
+          />
+          <InputField
+            type="password"
+            name="password"
+            label="Password"
+            icon={<Lock className="icon" />}
+          />
           <Button className="w-full" type="submit" disabled={isSubmitting}>
             Log In
           </Button>

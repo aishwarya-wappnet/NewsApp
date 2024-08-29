@@ -5,7 +5,7 @@ import { ADMIN_TOKEN } from "../utils/constants";
 
 const ProtectedRoute = ({ children }: { children: React.ReactElement }) => {
   const token = getItem(ADMIN_TOKEN);
-  return token ? children : <Navigate to="/admin-login" replace />;
+  return token ? children : <Navigate to="/auth" replace />;
 };
 
 export default ProtectedRoute;

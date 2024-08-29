@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
-import { Newspaper, User } from "lucide-react";
-import { fetchUsers } from "../../services/UserService";
+import { Newspaper, User as UserIcon } from "lucide-react";
+import { Chart } from "chart.js";
+
+import { fetchUsers, User } from "../../services/UserService";
 import { useData } from "../../contexts/DataContext";
 import { fetchNews } from "../../services/ArticleService";
-import { Chart } from "chart.js";
 import LineChart from "../../components/LineChart";
-import "react-datepicker/dist/react-datepicker.css";
 import { NewsArticle } from "../home/types";
 
 const Card = styled.div`
@@ -18,7 +18,11 @@ const Card = styled.div`
   color: white;
   text-align: center;
   padding: 1rem;
-  width: 200px;
+  width: 24%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const ColorCard = styled(Card)`
@@ -92,8 +96,16 @@ const Dashboard = () => {
       counts.push(0);
     }
 
-    data.forEach((item: any) => {
-      const date = new Date(item.createdAt || item.publishedAt);
+    data.forEach((item: User | NewsArticle) => {
+      let date: Date;
+
+      if ("createdAt" in item) {
+        date = new Date(item.createdAt);
+      } else if ("publishedAt" in item) {
+        date = new Date(item.publishedAt);
+      } else {
+        return;
+      }
 
       if (date >= start && date <= end) {
         const dayDiff = Math.floor(
@@ -110,20 +122,20 @@ const Dashboard = () => {
   };
 
   const { counts: userCounts, labels: userLabels } = useMemo(
-    () => getDataForChart(users),
+    () => getDataForChart(users || []),
     [users, startDate, endDate]
   );
   const { counts: articlesCounts, labels: articlesLabels } = useMemo(
-    () => getDataForChart(articles),
+    () => getDataForChart(articles || []),
     [articles, startDate, endDate]
   );
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex gap-3">
+      <div className="flex gap-3 mb-5">
         <ColorCard color="rgb(23, 162, 184)">
           <div className="flex flex-col justify-center items-center gap-2">
-            <User width={50} height={50} />
+            <UserIcon width={50} height={50} />
             <p>Users</p>
           </div>
           <p className="text-2xl">{users?.length}</p>
@@ -136,7 +148,7 @@ const Dashboard = () => {
           <p className="text-2xl">{articles?.length}</p>
         </ColorCard>
       </div>
-      <div className="flex gap-3 md:flex-row flex-col">
+      <div className="flex gap-4 md:flex-row flex-col">
         <LineChart
           chartRef={userChartRef}
           chartData={createChartData(userCounts, userLabels, "Users")}
@@ -144,12 +156,8 @@ const Dashboard = () => {
         />
         <LineChart
           chartRef={articlesChartRef}
-          chartData={createChartData(
-            articlesCounts,
-            articlesLabels,
-            "Articles"
-          )}
-          title="Articles"
+          chartData={createChartData(articlesCounts, articlesLabels, "News")}
+          title="News"
         />
       </div>
     </div>

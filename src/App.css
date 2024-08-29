@@ -1,8 +1,37 @@
 .form-control {
   resize: none;
-  @apply outline-none font-normal w-full p-2 h-10 rounded-[2px] transition-all duration-150 bg-white border border-gray-300;
+  @apply outline-none font-normal w-full p-2 h-10 transition-all duration-150 bg-white border border-gray-300;
 
   &:focus {
     @apply border-blue-400;
   }
+}
+
+.icon {
+  color: #6F767E;
+  @apply w-5;
+}
+
+.rmdp-input {
+  border: none !important;
+  width: 100%;
+  background-color: var(--gray-20) !important;
+  color: var(--gray-300) !important;
+  height: 40px !important;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.start-date input,
+.main_navdiv .start-date input::-webkit-input-placeholder {
+  width: 85px;
+}
+
+.start-date .rmdp-input {
+  background-color: transparent !important;
+}
+
+.start-date .rmdp-input:focus {
+  outline: nome;
+  box-shadow: none;
 }

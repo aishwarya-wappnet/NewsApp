@@ -68,10 +68,8 @@ const ArticleForm: React.FC<ArticleFormProps> = ({
           <div className="flex justify-start">
             <ImagePicker name="urlToImage" />
           </div>
-          <div className="flex gap-2">
-            <InputField type="text" name="title" label="Title" />
-            <InputField type="text" name="url" label="Article URL" />
-          </div>
+          <InputField type="text" name="title" label="Title" />
+          <InputField type="text" name="url" label="Article URL" />
           <TextareaField name="description" label="Description" rows={8} />
           <footer className="sticky bottom-0 bg-white py-3 border-t">
             <div className="flex justify-end gap-2">
@@ -83,7 +81,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({
                 Cancel
               </Button.Secondary>
               <Button className="w-[100px]" type="submit">
-                Save
+                {isEmpty(initValues) ? "Publish" : "Update"}
               </Button>
             </div>
           </footer>

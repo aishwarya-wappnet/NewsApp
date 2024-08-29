@@ -52,7 +52,7 @@ const LineChart: React.FC<LineChartProps> = ({
 }) => {
   return (
     <div className="bg-white w-[100%] rounded-sm border border-primary">
-      <div className="bg-primary p-2 rounded-t-sm  text-white">{title}</div>
+      <div className="p-2 rounded-t-sm text-white bg-primary">{title}</div>
       <div className="p-3">
         <Line ref={chartRef} data={chartData} options={options} />
       </div>

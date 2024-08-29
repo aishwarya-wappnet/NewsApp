@@ -7,6 +7,7 @@ import Placeholder from "../assets/placeholderImage.webp";
 import { Edit, Trash } from "lucide-react";
 import ErrorMsg from "./ErrorMsg";
 import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE_MB } from "../utils/constants";
+import { ClearButton, EditButton } from "./Buttons/Button";
 
 const Container = styled.div`
   display: flex;
@@ -46,32 +47,6 @@ const Controls = styled.div`
 
 const FileInput = styled.input`
   display: none;
-`;
-
-const Button = styled.button`
-  padding: 8px 16px;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #2563eb;
-  }
-
-  &:disabled {
-    background-color: #9ca3af;
-    cursor: not-allowed;
-  }
-`;
-
-const ClearButton = styled(Button)`
-  background-color: #ef4444;
-
-  &:hover {
-    background-color: #dc2626;
-  }
 `;
 
 interface ImagePickerProps {
@@ -148,15 +123,15 @@ const ImagePicker: React.FC<ImagePickerProps> = ({ name }) => {
           onChange={handleImageChange}
           ref={fileInputRef}
         />
-        <Button onClick={handleSelectImage} type="button">
-          <Edit width={20} />
-        </Button>
+        <EditButton onClick={handleSelectImage} type="button">
+          <Edit width={15} className="icon text-white" />
+        </EditButton>
         <ClearButton
           type="button"
           onClick={handleClearImage}
           disabled={!selectedImage && !values[name]}
         >
-          <Trash width={20} />
+          <Trash width={15} className="icon text-white" />
         </ClearButton>
       </Controls>
     </Container>

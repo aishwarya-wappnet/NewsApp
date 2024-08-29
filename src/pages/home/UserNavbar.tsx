@@ -49,7 +49,7 @@ const UserNavbar = () => {
         show={showCreateArticlesModal}
         close={handleArticleModal}
         outsideClose={true}
-        title="Create Article"
+        title="Publish News"
       >
         <CreateArticle
           close={handleArticleModal}
@@ -72,7 +72,7 @@ const UserNavbar = () => {
         <div className="flex gap-3">
           <Button onClick={handleArticleModal}>
             <Plus width={20} />
-            &nbsp;New Article
+            &nbsp;Publish News
           </Button>
           <div className="relative inline-block">
             <div
@@ -83,12 +83,16 @@ const UserNavbar = () => {
               <Avatar name={user?.fullName} size={40} variant="beam" square />
             </div>
             <Popover isOpen={isPopoverOpen} onClose={handlePopoverClose}>
+              <div className="flex gap-2 border-b pb-2">
+                <Avatar name={user?.fullName} size={20} variant="beam" square />
+                {user?.fullName}
+              </div>
               <button
                 onClick={() => {
                   setIsPopoverOpen(false);
                   logout();
                 }}
-                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="block w-full text-left text-sm text-gray-700 hover:bg-gray-100 mt-2 p-2"
               >
                 <div className="flex justify-start items-center gap-2">
                   <LogOut width={20} /> Logout

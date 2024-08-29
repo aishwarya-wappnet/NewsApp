@@ -1,7 +1,11 @@
-import { Edit, Trash } from "lucide-react";
+import { CircleX, Edit, Trash } from "lucide-react";
 import moment from "moment";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+import Modal from "./Modal";
+import ConfirmationModal from "./ConfirmationModal";
+import { ClearButton, EditButton } from "./Buttons/Button";
 
 interface TableColumn {
   header: string;
@@ -9,6 +13,7 @@ interface TableColumn {
   url?: boolean;
   width?: string;
   date?: boolean;
+  nowrap?: boolean;
 }
 
 interface TableRow {
@@ -31,6 +36,8 @@ const Table: React.FC<TableProps> = ({
   rowsPerPage = 10,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [showForm, setShowForm] = useState(false);
+  const [rowToDelete, setRowToDelete] = useState<TableRow | null>(null);
 
   // Calculate the indexes for slicing data
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -56,6 +63,22 @@ const Table: React.FC<TableProps> = ({
   };
 
   if (!data) return null;
+
+  const handleForm = () => {
+    setShowForm((prev) => !prev);
+  };
+
+  const handleDelete = (row: TableRow) => {
+    setRowToDelete(row); // Set the row to be deleted
+    handleForm(); // Open the confirmation modal
+  };
+
+  const confirmDelete = () => {
+    if (onDelete && rowToDelete) {
+      onDelete(rowToDelete); // Pass the row to onDelete
+    }
+    handleForm(); // Close the confirmation modal
+  };
 
   return (
     <div className="overflow-x-auto w-full">
@@ -87,31 +110,57 @@ const Table: React.FC<TableProps> = ({
               {columns.map((column) => (
                 <td
                   key={column.key}
-                  className="py-2 px-4 border-b border-gray-300"
+                  className={`py-2 px-4 border-b border-gray-300 text-sm ${
+                    column.nowrap && "text-nowrap"
+                  }`}
                   style={{ width: column.width }}
                 >
                   {renderTd(column, row)}
                 </td>
               ))}
               <td className="py-2 px-4 border-b border-gray-300">
-                <div className="flex gap-4">
-                  <Edit
-                    width={20}
+                <div className="flex gap-2">
+                  <EditButton
+                    onClick={() => onEdit && onEdit(row)}
+                    type="button"
+                  >
+                    <Edit width={15} className="text-white cursor-pointer" />
+                  </EditButton>
+                  {/* <Edit
+                    width={15}
                     className="text-primary cursor-pointer"
                     onClick={() => onEdit && onEdit(row)}
-                  />
-                  <Trash
-                    width={20}
-                    className="cursor-pointer"
-                    onClick={() => onDelete && onDelete(row)}
-                  />
+                  /> */}
+                  <ClearButton
+                    type="button"
+                    onClick={() => {
+                      handleDelete(row);
+                    }}
+                  >
+                    <Trash width={15} className="text-white cursor-pointer" />
+                  </ClearButton>
                 </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
+      {/* Delete confirmation popup start */}
+      <Modal
+        show={showForm}
+        close={handleForm}
+        outsideClose={true}
+        width="500px"
+      >
+        <ConfirmationModal
+          title="Are you sure you want to delete?"
+          icon={<CircleX width={120} height={120} className="text-red-300" />}
+          close={handleForm}
+          confirmBtnName="Delete"
+          confirmBtnClick={confirmDelete}
+        />
+      </Modal>
+      {/* Delete confirmation popup end */}
       {/* Pagination Controls */}
       <div className="flex justify-center items-center mt-4">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (

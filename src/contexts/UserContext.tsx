@@ -15,7 +15,7 @@ import { toast } from "sonner";
 interface UserAuthContextInterface {
   user: User | null;
   isAuthenticated: boolean;
-  login: () => void;
+  login: (data: User) => void;
   logout: () => void;
 }
 
@@ -40,8 +40,9 @@ export const UserAuthProvider: React.FC<{ children: ReactNode }> = ({
       }
     }
   }, []);
-  const login = () => {
+  const login = (data: User) => {
     setIsAuthenticated(true);
+    setUser(data);
   };
 
   const logout = () => {

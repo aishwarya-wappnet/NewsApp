@@ -34,7 +34,7 @@ export default function Popover({ isOpen, onClose, children }: PopoverProps) {
   return (
     <div
       ref={popoverRef}
-      className="absolute right-0 mt-2 w-48 bg-white rounded-sm shadow-lg z-10 border"
+      className="absolute right-0 px-4 py-2 mt-2 w-48 bg-white rounded-sm shadow-lg z-10 border"
     >
       {children}
     </div>

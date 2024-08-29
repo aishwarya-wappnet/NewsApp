@@ -29,7 +29,7 @@ export const AppRoutes = createBrowserRouter(
         }
       />
       <Route
-        path="/admin-login"
+        path="/auth"
         element={
           <Suspense fallback={<div>Loading...</div>}>
             <PublicRoute>
@@ -66,7 +66,7 @@ export const AppRoutes = createBrowserRouter(
           }
         />
         <Route
-          path="articles"
+          path="news"
           element={
             <Suspense fallback={<div>Loading...</div>}>
               <Articles />

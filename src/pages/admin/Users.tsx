@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import { v4 as uuid4 } from "uuid";
+import moment from "moment";
+import { Plus } from "lucide-react";
 
 import Table from "../../components/Table";
 import { useData } from "../../contexts/DataContext";
@@ -17,7 +19,6 @@ import Modal from "../../components/Modal";
 import InputField from "../../components/InputField";
 import { REQUIRED_FIELD } from "../../utils/constants";
 import { isEmpty } from "../../utils/helperfuntions";
-import moment from "moment";
 
 const initValues = {
   id: "",
@@ -129,8 +130,9 @@ const Users = () => {
         </Formik>
       </Modal>
       <div className="flex justify-end">
-        <Button className="my-2" onClick={handleUserForm}>
-          Add User
+        <Button className="mt-2 mb-4" onClick={handleUserForm}>
+          <Plus width={20} />
+          &nbsp;Add User
         </Button>
       </div>
       <Table

@@ -1,47 +1,18 @@
+import img1 from "../assets/img1.jpg";
+import img2 from "../assets/img2.jpg";
+import img3 from "../assets/img3.jpg";
+
 export const slides = [
   {
-    image:
-      "https://media.licdn.com/dms/image/D4D12AQG56UPUtPJj0w/article-cover_image-shrink_600_2000/0/1669373321238?e=2147483647&v=beta&t=uUMorY6yjVASSX_Iy-VNu8eXkAMfkmY97PWk7zDKR0w",
-    caption: "Latest Tech News on NewsFlick",
+    image: img1,
+    caption: "Stay Updated: Tech, Science, and Sports News in One Place.",
   },
   {
-    image:
-      "https://media.licdn.com/dms/image/D4D12AQG56UPUtPJj0w/article-cover_image-shrink_600_2000/0/1669373321238?e=2147483647&v=beta&t=uUMorY6yjVASSX_Iy-VNu8eXkAMfkmY97PWk7zDKR0w",
-    caption: "Latest Tech News on NewsFlick",
+    image: img2,
+    caption: "Your Daily Dose of News: Tech, Science, Sports, and More.",
   },
   {
-    image:
-      "https://media.licdn.com/dms/image/D4D12AQG56UPUtPJj0w/article-cover_image-shrink_600_2000/0/1669373321238?e=2147483647&v=beta&t=uUMorY6yjVASSX_Iy-VNu8eXkAMfkmY97PWk7zDKR0w",
-    caption: "Latest Tech News on NewsFlick",
-  },
-  {
-    image:
-      "https://media.licdn.com/dms/image/D4D12AQG56UPUtPJj0w/article-cover_image-shrink_600_2000/0/1669373321238?e=2147483647&v=beta&t=uUMorY6yjVASSX_Iy-VNu8eXkAMfkmY97PWk7zDKR0w",
-    caption: "Latest Tech News on NewsFlick",
-  },
-  {
-    image:
-      "https://media.licdn.com/dms/image/D4D12AQG56UPUtPJj0w/article-cover_image-shrink_600_2000/0/1669373321238?e=2147483647&v=beta&t=uUMorY6yjVASSX_Iy-VNu8eXkAMfkmY97PWk7zDKR0w",
-    caption: "Latest Tech News on NewsFlick",
-  },
-  {
-    image:
-      "https://media.licdn.com/dms/image/D4D12AQG56UPUtPJj0w/article-cover_image-shrink_600_2000/0/1669373321238?e=2147483647&v=beta&t=uUMorY6yjVASSX_Iy-VNu8eXkAMfkmY97PWk7zDKR0w",
-    caption: "Latest Tech News on NewsFlick",
-  },
-  {
-    image:
-      "https://media.licdn.com/dms/image/D4D12AQG56UPUtPJj0w/article-cover_image-shrink_600_2000/0/1669373321238?e=2147483647&v=beta&t=uUMorY6yjVASSX_Iy-VNu8eXkAMfkmY97PWk7zDKR0w",
-    caption: "Latest Tech News on NewsFlick",
-  },
-  {
-    image:
-      "https://media.licdn.com/dms/image/D4D12AQG56UPUtPJj0w/article-cover_image-shrink_600_2000/0/1669373321238?e=2147483647&v=beta&t=uUMorY6yjVASSX_Iy-VNu8eXkAMfkmY97PWk7zDKR0w",
-    caption: "Latest Tech News on NewsFlick",
-  },
-  {
-    image:
-      "https://media.licdn.com/dms/image/D4D12AQG56UPUtPJj0w/article-cover_image-shrink_600_2000/0/1669373321238?e=2147483647&v=beta&t=uUMorY6yjVASSX_Iy-VNu8eXkAMfkmY97PWk7zDKR0w",
-    caption: "Latest Tech News on NewsFlick",
+    image: img3,
+    caption: "Explore the Latest in Tech, Science, and Sports with Newsflick.",
   },
 ];

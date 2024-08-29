@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 
 import Table from "../../components/Table";
 import { useData } from "../../contexts/DataContext";
@@ -13,7 +14,7 @@ const articlesCols = [
   {
     header: "Title",
     key: "title",
-    width: "40%",
+    width: "45%",
   },
   {
     header: "Author",
@@ -24,7 +25,8 @@ const articlesCols = [
     header: "Publish Date",
     key: "publishedAt",
     date: true,
-    width: "35%",
+    width: "30%",
+    nowrap: true,
   },
   {
     header: "Article URL",
@@ -67,7 +69,7 @@ const Users = () => {
         show={showForm}
         close={handleArticleForm}
         outsideClose={true}
-        title={isEmpty(initialValues) ? "Add Article" : "Edit Article"}
+        title={isEmpty(initialValues) ? "Publish News" : "Edit News"}
       >
         <ArticleForm
           close={() => {
@@ -83,8 +85,9 @@ const Users = () => {
         />
       </Modal>
       <div className="flex justify-end">
-        <Button className="my-2" onClick={handleArticleForm}>
-          Add Article
+        <Button className="mt-2 mb-4" onClick={handleArticleForm}>
+          <Plus width={20} />
+          &nbsp;Publish News
         </Button>
       </div>
       <Table

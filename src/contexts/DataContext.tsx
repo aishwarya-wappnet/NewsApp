@@ -9,6 +9,7 @@ import {
 import { NewsArticle } from "../pages/home/types";
 import { User } from "../services/UserService";
 import moment from "moment";
+import { DateObject } from "react-multi-date-picker";
 
 interface DataContextInterface {
   articles: NewsArticle[] | undefined;
@@ -23,8 +24,8 @@ interface DataContextInterface {
   deleteUser: (id: string) => void;
   startDate: Date | null;
   endDate: Date | null;
-  handleStartDate: (date: Date) => void;
-  handleEndDate: (date: Date) => void;
+  handleStartDate: (date: DateObject | null) => void;
+  handleEndDate: (date: DateObject | null) => void;
 }
 
 const DataContext = createContext<DataContextInterface | undefined>(undefined);
@@ -83,12 +84,12 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({
     setUsers((prev) => prev.filter((user) => user.id !== id));
   };
 
-  const handleStartDate = (date: Date) => {
-    setStartDate(date);
+  const handleStartDate = (date: DateObject | null) => {
+    if (date) setStartDate(date.toDate());
   };
 
-  const handleEndDate = (date: Date) => {
-    setEndDate(date);
+  const handleEndDate = (date: DateObject | null) => {
+    if (date) setEndDate(date.toDate());
   };
 
   const value = useMemo(

@@ -14,18 +14,22 @@ interface ImageSliderProps {
 }
 
 const SliderWrapper = styled.div`
-  width: 100%;
-  margin: auto;
+  width: 900px;
 
   .slick-slide img {
+    width: 100%;
+    height: 75vh;
     display: block;
     margin: auto;
-    width: 100%;
-    max-width: none;
+    object-fit: cover;
   }
 
   .slick-dots li button:before {
     color: rgb(237, 58, 86);
+  }
+
+  @media (max-width: 960px) {
+    width: 96%;
   }
 `;
 
