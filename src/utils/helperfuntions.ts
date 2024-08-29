@@ -49,7 +49,6 @@ export const comparePassword = async ({
 export const isEmpty = (initialValues: object) =>
   Object.values(initialValues).every((value) => !value);
 
-// Debounce function for React with TypeScript
 export function debounce<T extends (...args: any[]) => void>(
   func: T,
   wait: number
