@@ -1302,18 +1302,18 @@
   },
   "users": [
     {
-      "id": "9d93b49d-c325-46e8-8a78-4602b47fe465",
-      "fullName": "Aishwarya Khatri",
-      "email": "aish@mailinator.com",
-      "password": "Wappnet@123",
-      "createdAt": "2022-04-19T13:38:00"
-    },
-    {
       "id": "c0115f4c-394a-4a73-aff0-ee99947fc29c",
       "fullName": "Ross",
       "email": "ross@mailinator.com",
       "password": "Wappnet@123",
       "createdAt": "2024-08-29T09:46:38.097Z"
+    },
+    {
+      "id": "f1fc3412-a935-4098-a565-c5f179f4431d",
+      "fullName": "Test",
+      "email": "test@mailinator.com",
+      "password": "Wappnet@123",
+      "createdAt": "2024-09-02T06:19:14.565Z"
     }
   ]
 }

@@ -29,9 +29,16 @@ const ArticleForm: React.FC<ArticleFormProps> = ({
   const { addArticle, editArticle } = useData();
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required(REQUIRED_FIELD),
-    description: Yup.string().required(REQUIRED_FIELD),
-    url: Yup.string().url("Must be a valid URL").required("Required field"),
+    title: Yup.string()
+      .required(REQUIRED_FIELD)
+      .max(100, "Title cannot be longer than 100 characters"),
+    description: Yup.string()
+      .required(REQUIRED_FIELD)
+      .max(500, "Description cannot be longer than 500 characters"),
+    url: Yup.string()
+      .url("Must be a valid URL")
+      .required("Required field")
+      .max(2048, "URL cannot be longer than 2048 characters"),
     urlToImage: Yup.string().required(REQUIRED_FIELD),
   });
 

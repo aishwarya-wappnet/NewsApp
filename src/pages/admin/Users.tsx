@@ -70,9 +70,23 @@ const Users = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required(REQUIRED_FIELD),
-    email: Yup.string().email("Invalid email address").required(REQUIRED_FIELD),
-    password: Yup.string().required(REQUIRED_FIELD),
+    fullName: Yup.string()
+      .required(REQUIRED_FIELD)
+      .max(50, "Full name cannot be longer than 50 characters"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required(REQUIRED_FIELD)
+      .max(100, "Email cannot be longer than 100 characters"),
+    password: Yup.string()
+      .required(REQUIRED_FIELD)
+      .matches(/^(?!\s)/, "Password cannot start with space")
+      .min(8, "Password must be at least 8 characters")
+      .matches(/[0-9]/, "Password requires a number")
+      .matches(/[a-z]/, "Password requires a lowercase letter")
+      .matches(/[A-Z]/, "Password requires an uppercase letter")
+      .matches(/[\W_]/, "Password requires a symbol")
+      .matches(/(?<!\s)$/, "Password cannot end with space")
+      .required("Password is required"),
   });
 
   return (
